@@ -1,0 +1,168 @@
+# The parent line must be the first non-comment line in the file
+# This line defines the product name and version
+parent minostest trunk
+defaultqual     e17
+
+# These optional lines define the installed directories where
+# headers, libraries, and executables will be found
+# Use them only if your product does not conform to the defaults
+# Format: directory_type directory_path directory_name
+# The only recognized values of the first field are incdir, libdir, and bindir
+# The only recognized values of the second field are product_dir and fq_dir
+# The third field is not constrained
+# The examples here reflect the defaults
+incdir      product_dir include
+libdir      fq_dir      lib
+bindir      fq_dir      bin
+fcldir      product_dir job
+gdmldir     product_dir 
+#fwdir       product_dir
+
+# only list products here that aren't brought in by other dependencies
+# products that do not have qualifiers are setup in the novaenv product
+# novaenv must go after ifdh_art so that the setup of fife_utils does not 
+# grab the wrong version of ifdhc
+product          version
+
+cafanacore       v01.12
+eigen            v3.3.5
+genie_xsec     	 v3_00_06
+genie_phyopt  	 v3_00_06
+genie_fluxopt    v19_01_31
+novadaq          v11_Branchb1
+novarwgt         v2.0-dev18
+nuevdb           v1_00_02
+nutools          v3_01_06
+nug4             v1_02_02_01
+nugen            v1_06_04
+osclib           v00.07
+ppfx             v02_10_01
+pygccxml         v1_9_1a
+tensorflow       v1_12_0b
+stan		         v2.18.0
+stan_math     	 v2.18.0
+srproxy          v00.20
+hep_hpc          v0_11_00
+opencv           v3_4_2a
+
+cetbuildtools    v7_13_02 - only_for_build
+end_product_list
+
+# -nq- here means there is no qualifier
+# a - here means the dependent product is not required by the parent and will not be setup
+qualifier  	    novadaq    genie_xsec                     genie_phyopt       genie_fluxopt  nuevdb    nutools	  nug4      nugen     tensorflow  ppfx      pygccxml  novarwgt         stan      stan_math eigen  srproxy  osclib         cafanacore hep_hpc   opencv
+
+e17:debug	      e17:debug  N1810i0211a:e1000:k250:resfix  dkcharmtau:resfix  nova           e17:debug e17:debug e17:debug e17:debug e17:debug   e17:debug p2715a    e17:genie3:debug e17:debug e17:debug -nq-   py2      e17:debug:stan e17:debug  -         e17
+e17:prof	      e17:prof   N1810i0211a:e1000:k250:resfix  dkcharmtau:resfix  nova           e17:prof  e17:prof  e17:prof  e17:prof  e17:prof    e17:prof  p2715a    e17:genie3:prof  e17:prof  e17:prof  -nq-   py2      e17:prof:stan  e17:prof   e17:prof  e17
+e17:grid:prof   e17:prof   N1810i0211a:e1000:k250:resfix  dkcharmtau:resfix  nova           e17:prof  e17:prof  e17:prof  e17:prof  e17:prof    e17:prof  p2715a    e17:genie3:prof  e17:prof  e17:prof  -nq-   py2      e17:prof:stan  e17:prof   e17:prof  e17
+end_qualifier_list
+
+# table fragment to set needed variables 
+
+table_fragment_begin
+# setup the products used by novasoft that do not have any qualifiers
+# make the setup optional in case running on a machine where these
+# products are not installed - they are not needed for code development
+    setupOptional( bpf            v02.01 )
+    setupOptional( calibcsvs      v14.11 )
+    setupOptional( cvn            v01.11 )
+    setupOptional( cvnprong       v01.10 )
+    setupOptional( cvnreg         v02.00 )
+    setupOptional( eid            v01.00 )
+    setupOptional( hmatrix        v01.00 )
+    setupOptional( lemlittle      v01.03 )
+    setupOptional( lid            v01.03 )
+    setupOptional( ncid           v01.05 )
+    setupOptional( qepid          v01.01 )
+    setupOptional( remid          v01.10 )
+    setupOptional( rvp            v01.00 )
+    setupOptional( ucana          v01.08 )
+    setupOptional( condb          v2_0b  )
+    setupOptional( numudata       v00.05 )
+    setupOptional( nusdata        v00.11 )
+    setupOptional( fife_utils            )
+    setupOptional( psycopg2       v2_5_p2_7 )
+    setupOptional( sam_web_client v3_0   )
+    envSet(SAM_EXPERIMENT,       nova)
+    envSet(NOVADBHOST,           ifdbrep.fnal.gov)
+    envSet(NOVADBHOST1,          ifdbprod.fnal.gov)
+    envSet(NOVADBWSURL,          http://novacon-data.fnal.gov:8091/NOvACon/v2_2b/app/)
+    envSet(NOVADBWSURLINT,       http://novacon-data.fnal.gov:8109/NOvACon/v2_2b/app/)
+    envSet(NOVADBWSURLPUT,       http://novacon-data.fnal.gov:8107/NOvACon/v2_2b/app/)
+    envSet(NOVADBQEURL,          http://novacon-data.fnal.gov:8105/QE/NOvA/app/SQ/)
+    envSet(NOVADBNAME,           nova_prod)
+    envSet(NOVADBWSPWDFILE,      /nova/app/db/nova_devdbws_pwd)
+    envSet(NOVADBPORT,           5433)
+    envSet(NOVAHWDBHOST,         ifdbrep.fnal.gov)
+    envSet(NOVAHWDBHOST1,        ifdbprod.fnal.gov)
+    envSet(NOVAHWDBNAME,         nova_hardware)
+    envSet(NOVAHWDBPORT,         5432)
+    envSet(NOVANEARDAQDBHOST,    ifdbrep.fnal.gov)
+    envSet(NOVANEARDAQDBNAME,    nova_prod)
+    envSet(NOVANEARDAQDBPORT,    5434)
+    envSet(NOVAFARDAQDBHOST,     ifdbrep.fnal.gov)
+    envSet(NOVAFARDAQDBNAME,     nova_prod)
+    envSet(NOVAFARDAQDBPORT,     5436)
+    envSet(NOVAFARDCSDBHOST,     ifdbrep.fnal.gov)
+    envSet(NOVAFARDCSDBNAME,     nova_prod)
+    envSet(NOVAFARDCSDBPORT,     5437)
+    envSet(NOVADOCPWDFILE,       /nova/app/home/novasoft/doc_db_pwd)
+    envSet(NOVA_DATA,	           /nova/data)
+    envSet(NOVA_ANA,             /nova/ana)
+    envSet(NOVA_APP,             /nova/app)
+    envSet(NOVA_PROD,            /nova/prod)
+    envSet(PNFS_NOVA_DATA,       /pnfs/nova/data)
+    envSet(PNFS_NOVA_SCRATCH,    /pnfs/nova/scratch/users)
+    envSet(PNFS_NOVA_USERS,      /pnfs/nova/users)
+    envSet(FW_DATA,	             ${CVMFS_DISTRO_BASE}/nova/data:${CVMFS_DISTRO_BASE}/grid/fermiapp/nova/aux:${CVMFS_DISTRO_BASE}/nusoft/data/flux)
+    pathPrepend(FW_SEARCH_PATH,  ${FW_DATA})
+    envSet(FW_BASE,              ${UPS_PROD_DIR}/source)
+    envSet(FW_RELEASE_BASE,      ${UPS_PROD_DIR}/source)
+    envSet(EXECUTABLE,           runNovaSAM.py)
+    envSet(NOVA_RELEASE,         ${UPS_PROD_NAME_UC}_VERSION)
+    envSet(BUILD,                ${UPS_PROD_NAME_UC}_FQ)
+    pathPrepend(FW_SEARCH_PATH,  ${UPS_PROD_DIR}/data)
+    pathPrepend(FW_SEARCH_PATH,  ${UPS_PROD_DIR}/xml)
+    pathPrepend(FW_SEARCH_PATH,  ${UPS_PROD_DIR}/gdml)
+    pathPrepend(FW_SEARCH_PATH,  ${NUMUDATA_LIB_PATH})
+    pathPrepend(FHICL_FILE_PATH, ./:${UPS_PROD_DIR})
+    # only execute the datagram_client.py if this is not a grid setup
+    If( echo "${UPS_REQ_QUALIFIERS}" | grep -q grid )
+      Execute(echo "Setting up environment for grid running", NO_UPS_ENV)
+      envSet(NOVADBTIMEOUT,      1800)
+      envSet(NOVADBUSER,         nova_grid)
+      envSet(NOVAHWDBUSER,       nova_grid)
+      envSet(NOVADBPWDFILE,      ${UPS_PROD_DIR}/pwd/Database/config/nova_grid_pwd)
+      envSet(IFDH_BASE_URI,      http://samweb.fnal.gov:8480/sam/nova/api)
+      envSet(IFDH_DEBUG,         0)
+      envSet(IFDH_CP_MAXRETRIES, 5)
+      envSet(SAM_STATION,        nova)
+      envSet(EXPERIMENT,         nova)
+      envSet(GROUP,              nova)
+      envSet(JOBSUB_GROUP,       nova)
+      envSet(SITES,              "FNAL_nova,FNAL_nova_opportunistic")
+      envSet(SCRIPT,             ${IFDH_ART_FQ_DIR}/bin/art_sam_wrap.sh)
+      envUnset(IFDH_STAGE_VIA)
+    Else()
+      Execute(echo "Setting up environment for interactive running", NO_UPS_ENV)
+      envSet(NOVADBUSER,     nova_reader)
+      envSet(NOVAHWDBUSER,   nova_reader)
+      envSet(NOVADBTIMEOUT,  30)
+      envSet(NOVADBPWDFILE,  ${UPS_PROD_DIR}/pwd/Database/config/nova_reader_pwd)
+      execute("${NOVASOFT_FQ_DIR}/bin/datagram_client.py ups_build:${NOVASOFT_VERSION}:${BUILD}", NO_UPS_ENV)
+    EndIf( echo "${UPS_REQ_QUALIFIERS}" | grep -q grid )
+    # this is a temporary hack until we have a release of geant4 that defines GDML_SCHEMA_DIR
+    envSet(GDML_SCHEMA_DIR,      ${GEANT4_DIR}/source/geant4.9.6.p02/source/persistency/gdml/schema)
+    # the SRT_PUBLIC_CONTEXT is needed by code loading database tables from xml files
+    envSet(SRT_PUBLIC_CONTEXT,   ${UPS_PROD_DIR}/xml)
+    # the SRT_BASE_RELEASE is needed by the runNovaSAM.py script
+    envSet(SRT_BASE_RELEASE,     ${NOVASOFT_VERSION})
+table_fragment_end
+
+# Preserve tabs and formatting in emacs and vi / vim:
+
+### Local Variables:
+### tab-width: 8
+### End:
+
+# vi:set ts=8 noexpandtab:
